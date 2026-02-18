@@ -16,6 +16,20 @@ load_dotenv()
 # Sets up FastAPI app, that will receive requests, hold your routes (like /chat), settings (like CORS).
 app = FastAPI()
 
+# Settings #
+# Allows frontend (React) to talk to backend (Python)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "https://rag-bjj-assistant.vercel.app"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 # Rate Limiter settings
 limiter = Limiter(key_func=get_remote_address)
@@ -28,15 +42,6 @@ def rate_limit_handler(request, exc):
         content={"response": "Too many requests. Please wait a minute and try again."}
     )
 
-# Settings #
-# Allows frontend (React) to talk to backend (Python)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Create OpenAI client using API key
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
