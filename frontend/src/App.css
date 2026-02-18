@@ -1,0 +1,135 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.subtitle {
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  background-color: hsl(204, 94%, 94%);
+  color: hsl(201, 96%, 32%);
+  border-radius: 20px;
+}
+
+.chat-container {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  position: relative;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.version-tag {
+  font-size: 11px;
+  color: #555;
+  background-color: #f5f5f5;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.empty-state {
+  text-align: center;
+  color: #aaa;
+  margin-top: 40px;
+  font-size: 14px;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.message-wrapper {
+  margin-bottom: 12px;
+}
+
+.message-wrapper.user {
+  text-align: right;
+}
+
+.message-wrapper.bot {
+  text-align: left;
+}
+
+.bubble {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 75%;
+}
+
+.bubble-user {
+  background-color: #dcf8c6;
+}
+
+.bubble-bot {
+  background-color: #f1f0f0;
+}
+
+.loading {
+  font-style: italic;
+}
+
+.input-area {
+  display: flex;
+  border-top: 1px solid #eee;
+}
+
+.input {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  background-color: #f2f2f2;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #eae8bd;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #888;
+}
