@@ -5,7 +5,7 @@ All notable changes to this project will be documented here.
 ---
 ## v1.1.0 – Persistent Embeddings
 
-- Added file-based embedding persistence
+- Added file-based embedding persistence, Embeddings persist during runtime; persistent storage requires attached disk.
 - Prevents regeneration on server restart
 - Reduces startup time and OpenAI usage
 - Introduced conditional embedding loading logic
