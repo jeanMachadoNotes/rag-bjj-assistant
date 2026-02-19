@@ -3,15 +3,19 @@
 All notable changes to this project will be documented here.
 
 ---
+## v1.0.1 – UI Improvements
+
+- Added in-app changelog modal
+- Added CHANGELOG.md to repository
+- Minor UI refinements
 
 ## v1.0.0 – Initial Public Release
 
-- Implemented strict Retrieval-Augmented Generation (RAG) pipeline
-- Document chunking and embedding generation
+- Strict Retrieval-Augmented Generation (RAG) pipeline
+- Curated Brazilian Jiu-Jitsu knowledge base ingestion
+- Semantic chunking of source document
 - Manual top-3 cosine similarity retrieval
 - Strict context-only prompt enforcement
-- Rate limiting (10 requests/minute per IP)
-- Input length validation
-- Render backend deployment
-- Vercel frontend deployment
-- Version indicator in UI
+- Rate limiting and input validation
+- Production deployment (Render + Vercel)
+

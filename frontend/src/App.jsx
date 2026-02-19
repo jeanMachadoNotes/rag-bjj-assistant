@@ -5,6 +5,7 @@ function App() {
   const [messages, setMessage] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showChangelog, setShowChangelog] = useState(false);
 
   const chatEndRef = useRef(null);
   const messagesRef = useRef(null);
@@ -69,14 +70,19 @@ function App() {
         <h1 className="title">Brazilian Jiu-Jitsu Knowledge Assistant</h1>
         <p className="subtitle">
           Ask questions about Brazilian Jiu-Jitsu techniques and concepts.
-Responses are generated using a strict Retrieval-Augmented Generation (RAG) pipeline that relies only on curated source material.
+          Responses are generated using a strict Retrieval-Augmented Generation (RAG) pipeline that relies only on curated source material.
         </p>
         <div className="badge">Strict Context Mode Enabled</div>
       </div>
 
       <div className="chat-container">
         <div className="chat-header">
-          <div className="version-tag">v1.0 — Public Release</div>
+          <div className="version-tag">v1.0.1 — UI Improvements</div>
+          <span 
+            className="changelog-link"
+            onClick={() => {setShowChangelog(true)}}
+          > View Changes
+          </span>
         </div>
 
         <div className="messages" ref={messagesRef}>
@@ -120,6 +126,32 @@ Responses are generated using a strict Retrieval-Augmented Generation (RAG) pipe
           </button>
 
         </div>
+
+        {showChangelog && (
+          <div className="modal-overlay" onClick={()=> setShowChangelog(false)}>
+            <div className="modal" onClick={(e)=> e.stopPropagation()}>
+              
+              <h3>Changelog</h3>
+              
+              <h4>v1.0.1 – UI Improvements</h4>
+                <ul>
+                  <li>Added in-app changelog modal</li>
+                  <li>Added repository CHANGELOG.md</li>
+                  <li>Minor UI refinements</li>
+                </ul>
+              <h4>v.1.0.0 - Initial Release</h4>
+              <ul>
+                <li>Strict RAG pipeline</li>
+                <li>Manual top-3 retrieval</li>
+                <li>Rate limiting</li>
+                <li>Uses a curated knowledge base</li>
+                <li>Production deployment</li>
+              </ul>
+
+            </div>
+
+          </div>
+        )}
         
       </div>
 
