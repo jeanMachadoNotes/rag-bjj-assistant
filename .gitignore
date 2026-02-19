@@ -10,6 +10,7 @@ frontend/build
 # Enviroment variables
 .env
 backend/.env
+backend/embeddings.json
 fronend/.env
 
 # Mac

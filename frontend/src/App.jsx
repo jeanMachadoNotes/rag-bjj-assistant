@@ -77,7 +77,7 @@ function App() {
 
       <div className="chat-container">
         <div className="chat-header">
-          <div className="version-tag">v1.0.1 — UI Improvements</div>
+          <div className="version-tag">v1.1.0 — Persistent Embeddings</div>
           <span 
             className="changelog-link"
             onClick={() => {setShowChangelog(true)}}
@@ -132,7 +132,13 @@ function App() {
             <div className="modal" onClick={(e)=> e.stopPropagation()}>
               
               <h3>Changelog</h3>
-              
+
+              <h4>v1.1.0 – Persistent Embeddings </h4>
+                <ul>
+                  <li>Added file-based embedding persistence</li>
+                  <li>Embeddings now load instantly on server restart</li>
+                  <li>Reduced unnecessary OpenAI embedding calls</li>
+                </ul>
               <h4>v1.0.1 – UI Improvements</h4>
                 <ul>
                   <li>Added in-app changelog modal</li>
@@ -143,7 +149,7 @@ function App() {
               <ul>
                 <li>Strict RAG pipeline</li>
                 <li>Manual top-3 retrieval</li>
-                <li>Rate limiting</li>
+                <li>Rate limiting adn input validation</li>
                 <li>Uses a curated knowledge base</li>
                 <li>Production deployment</li>
               </ul>

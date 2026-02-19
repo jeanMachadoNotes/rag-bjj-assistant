@@ -3,6 +3,13 @@
 All notable changes to this project will be documented here.
 
 ---
+## v1.1.0 – Persistent Embeddings
+
+- Added file-based embedding persistence
+- Prevents regeneration on server restart
+- Reduces startup time and OpenAI usage
+- Introduced conditional embedding loading logic
+
 ## v1.0.1 – UI Improvements
 
 - Added in-app changelog modal

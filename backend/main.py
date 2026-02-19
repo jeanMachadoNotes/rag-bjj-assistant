@@ -8,6 +8,7 @@ from slowapi.errors import RateLimitExceeded
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import json
 import math
 
 # Load enviroment variables from .env
@@ -79,18 +80,30 @@ def cosine_similarity(vec1, vec2):
     return dot_product / (norm1 * norm2)
 
 
-
-# Load and Embed Documents (once at startup)
+# Create Chunks
 with open("documents/knowledge.txt", "r") as f:
-    content = f.read()
+        content = f.read()
+        chunks = chunk_text(content)
 
-chunks = chunk_text(content)
 
-chunk_embeddings = []
-for chunk in chunks:
-    embedding = get_embedding(chunk)
-    chunk_embeddings.append((chunk, embedding))
+# Load and Embed Documents
+if os.path.exists("embeddings.json"):
+    print("Loading precomputed embeddings...")
+    with open("embeddings.json", "r") as f:
+        chunk_embeddings = json.load(f)
+else:
+    print("Generating embeddings for first time...")
+    chunk_embeddings = []
 
+    for chunk in chunks:
+        embedding = get_embedding(chunk)
+        chunk_embeddings.append({
+            "chunk": chunk,
+            "embedding": embedding
+        })
+    
+    with open("embeddings.json", "w") as f:
+        json.dump(chunk_embeddings, f)
 
 
 
@@ -106,7 +119,9 @@ def chat(request: Request, message: Message):
 
         # Compute similarity scores
         scored_chunks = []
-        for chunk, embedding in chunk_embeddings:
+        for item in chunk_embeddings:
+            chunk = item["chunk"]
+            embedding = item["embedding"]
             score = cosine_similarity(question_embedding, embedding)
             scored_chunks.append((score, chunk))
 
