@@ -11,6 +11,12 @@ import os
 import json
 import math
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+EMBEDDINGS_PATH = os.path.join(BASE_DIR, "embeddings.json")
+
+print("Embeddings path:", EMBEDDINGS_PATH)
+
+
 # Load enviroment variables from .env
 load_dotenv()
 
@@ -87,9 +93,9 @@ with open("documents/knowledge.txt", "r") as f:
 
 
 # Load and Embed Documents
-if os.path.exists("embeddings.json"):
+if os.path.exists(EMBEDDINGS_PATH):
     print("Loading precomputed embeddings...")
-    with open("embeddings.json", "r") as f:
+    with open(EMBEDDINGS_PATH, "r") as f:
         chunk_embeddings = json.load(f)
 else:
     print("Generating embeddings for first time...")
@@ -102,7 +108,7 @@ else:
             "embedding": embedding
         })
     
-    with open("embeddings.json", "w") as f:
+    with open(EMBEDDINGS_PATH, "w") as f:
         json.dump(chunk_embeddings, f)
 
 
