@@ -77,7 +77,7 @@ function App() {
 
       <div className="chat-container">
         <div className="chat-header">
-          <div className="version-tag">v1.1.0 — Persistent Embeddings</div>
+          <div className="version-tag">v1.2.0 — Vector Database Integration</div>
           <span 
             className="changelog-link"
             onClick={() => {setShowChangelog(true)}}
@@ -133,6 +133,11 @@ function App() {
               
               <h3>Changelog</h3>
 
+              <h4>v1.2.0 – Vector Database Integration </h4>
+                <ul>
+                  <li>Replaced manual cosine retrieval with ChromaDB query</li>
+                  <li>Added Chroma persistent client + collection (local persistence; Render resets on restart)</li>
+                </ul>
               <h4>v1.1.0 – Persistent Embeddings </h4>
                 <ul>
                   <li>Added file-based embedding persistence</li>

@@ -3,6 +3,11 @@
 All notable changes to this project will be documented here.
 
 ---
+# v1.2.0 - Vector Database Integration
+
+- Replaced manual cosine retrieval with ChromaDB query
+- Added Chroma persistent client + collection (local persistence; Render resets on restart)
+
 ## v1.1.0 – Persistent Embeddings
 
 - Added file-based embedding persistence, Embeddings persist during runtime; persistent storage requires attached disk.

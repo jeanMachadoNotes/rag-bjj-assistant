@@ -1,0 +1,240 @@
+NEW CHAT CONTEXT
+
+New Chat Context
+Goal
+
+Build and iteratively improve a production-style RAG chatbot
+
+React frontend + FastAPI backend
+
+Strict retrieval-only answering (no hallucination)
+
+Deploy publicly (Vercel + Render)
+
+Show architectural progression (manual → persistence → vector DB)
+
+Current State
+
+App deployed and working (frontend + backend)
+
+Strict RAG pipeline functional
+
+Top-3 retrieval using cosine similarity
+
+Rate limiting (10 requests/min/IP) working
+
+Input length cap (500 chars) working
+
+In-app changelog modal implemented
+
+Versioning implemented (currently at v1.1.0)
+
+Embeddings persisted to embeddings.json (file-based)
+
+Render filesystem resets file on restart (expected behavior)
+
+Backend migrated to Python 3.11.14
+
+ChromaDB installed (not yet integrated into retrieval)
+
+Stack
+
+Frontend: React (Create React App) – TODO exact version
+
+Backend: FastAPI
+
+Server: Uvicorn
+
+Embeddings: OpenAI API (model TODO confirm)
+
+Rate limiting: slowapi
+
+Env management: python-dotenv
+
+Vector DB (planned integration): chromadb
+
+Hosting: Render (backend, paid tier), Vercel (frontend)
+
+Python: 3.11.14
+
+Key Files
+
+backend/main.py – API, RAG logic, rate limiting
+
+backend/requirements.txt
+
+backend/.env (ignored)
+
+backend/embeddings.json (generated, ignored)
+
+frontend/src/App.jsx – UI + modal + chat logic
+
+frontend/src/App.css
+
+CHANGELOG.md
+
+.gitignore
+
+Decisions Made
+
+Enforce strict RAG (context-only answers)
+
+Return “I don’t know” if answer not in context
+
+Manual cosine similarity (initial architecture)
+
+Persist embeddings to file (v1.1.0)
+
+Do NOT commit generated embeddings file
+
+Use Python 3.11 for compatibility (Chroma)
+
+Branch per version (clean Git history)
+
+Move next to vector database (Chroma) for scalability
+
+No persistent disk on Render (acceptable limitation for now)
+
+Retrieval Details (Current)
+
+Single curated text file (Brazilian Jiu-Jitsu content)
+
+Manual chunking (details TODO)
+
+OpenAI embeddings generated per chunk
+
+Stored in JSON file
+
+Loaded into memory
+
+Loop through list
+
+Compute cosine similarity
+
+Sort
+
+Select top 3
+
+Inject into prompt
+
+Next 3 Tasks
+
+Remove manual cosine similarity loop
+
+Integrate Chroma collection + persistence
+
+Replace retrieval with collection.query(..., n_results=3) and release v1.2.0
+
+Critical Commands
+source venv/bin/activate
+python --version
+pip freeze > requirements.txt
+uvicorn main:app --reload
+git checkout -b <branch>
+git merge <branch>
+git push
+Critical Env Vars
+
+Backend:
+
+OPENAI_API_KEY=...
+PYTHON_VERSION=3.11.14
+
+Frontend:
+
+REACT_APP_API_URL=https://<backend-url>
+Unknowns (TODO)
+
+Exact embedding model name
+
+Exact chunking logic
+
+Exact React version
+
+Whether Chroma will auto-embed or use manual embeddings
+
+
+WORKING AGREEMENT (Teaching Approach)
+
+Teach one concept at a time; no hidden assumptions.
+
+Use tiered milestones (each step shippable + testable).
+
+Always clarify before proceeding when intent is ambiguous (A/B choices).
+
+Prefer short conceptual explanation → then implementation.
+
+Explain why before how.
+
+Use simple mental models and analogies before technical depth.
+
+Present code with:
+
+File path
+
+Exact insertion point
+
+Minimal diff-style snippets
+
+Never paste large blocks without context.
+
+After each change: provide a verification step (command or observable output).
+
+Require confirmation before moving to next layer.
+
+Use command-line verification frequently (version, install, run).
+
+Distinguish clearly between:
+
+Application-level logic
+
+Infrastructure-level behavior
+
+When something fails:
+
+Diagnose step-by-step
+
+Add temporary debug prints
+
+Remove them once verified
+
+Explicitly separate durable facts from assumptions.
+
+Mark unknowns as TODO rather than guessing.
+
+Prevent scope creep by:
+
+Naming the current milestone
+
+Defining the success condition
+
+Parking future ideas for later versions
+
+Keep architecture evolution intentional (v1 → v1.1 → v1.2).
+
+Emphasize production discipline (envs, versioning, branching).
+
+Prefer safe, reversible changes.
+
+Always ask for system details (OS, Python version, environment) before giving install steps.
+
+Encourage reasoning questions to confirm understanding.
+
+Use structured summaries when transitioning phases.
+
+Keep momentum but never skip validation.
+
+End sessions with next 1–3 concrete actions.
+
+Session Template
+Goal for this session:
+Current state (1–2 lines):
+Milestone target:
+Step 1 (concept):
+Step 2 (implementation):
+
+Verification command/test:
+
+Expected output:
+
+Confirm before proceeding.
