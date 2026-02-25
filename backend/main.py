@@ -11,10 +11,14 @@ import os
 import json
 import chromadb
 from chromadb.config import Settings
+from pprint import pprint
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
+from langchain.agents import create_agent
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EMBEDDINGS_PATH = os.path.join(BASE_DIR, "embeddings.json")
-
+APP_VERSION = "v1.3.0"
 
 # Load enviroment variables from .env
 load_dotenv()
@@ -92,7 +96,7 @@ def load_embeddings_into_chroma() -> None:
 
 
 
-# Settings #s
+# Settings #
 # Allows frontend (React) to talk to backend (Python)
 app.add_middleware(
     CORSMiddleware,
@@ -158,6 +162,44 @@ def get_embedding(text):
 #     norm2 = math.sqrt(sum(b * b for b in vec2))
 #     return dot_product / (norm1 * norm2)
 
+## Agent Tools
+@tool
+def rag_search(query: str, k: int = 3) -> dict:
+    """
+    Tool: search the knowledge base and return the top chunks.
+    Returns: {"chunks": [{"id": str, "text": str, "distance": float[None], ...}]}
+    """
+    query = (query or "").strip()
+    if not query:
+        return {"chunks": []}
+    
+    # Debug Line
+    print("TOOL CALLED rag_search_tool with query =", repr(query)) 
+
+    # User query
+    query_embedding = get_embedding(query)
+
+    # Chromadb Search
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=k,
+        include=["documents", "distances"],
+    )
+
+    docs = (results.get("documents") or [[]])[0] or []
+    ids = (results.get("ids")) or [[]][0] or []
+    dists = (results.get("distances") or [[]])[0] or [] 
+
+    chunks = []
+    for i, doc in enumerate(docs):
+        if not doc or not doc.strip():
+            continue
+        chunks.append({
+            "id": str(ids[i]) if i < len(ids) else str(i),
+            "text": doc,
+            "distance": dists[i] if i < len(dists) else None,
+        })
+    return {"chunks": chunks}
 
 # Create Chunks
 with open("documents/knowledge.txt", "r") as f:
@@ -186,6 +228,15 @@ else:
 
 
 
+# END POINTS
+
+# Server health endpoint
+@app.get("/health")
+def health():
+    return {"status": "ok", "version": APP_VERSION}
+    
+
+
 # Chat endpoint route (URL + Method)
 @app.post("/chat")
 @limiter.limit("10/minute")
@@ -194,76 +245,48 @@ def chat(request: Request, message: Message):
     if len(message.text) > 500:
         return {"response": "Message too long. Please limit your question."}
     try:
-        question_embedding = get_embedding(message.text)
+        # Debug Line
+        # print("INCOMING message.text=", repr(message.text))
 
+        sys_prompt = """
+        You are a friendly BJJ tutor.
 
-        # --------------------------------
-
-        # Manual similarity check, retrieval replaced by Chromadb
-        # # Compute similarity scores
-        # scored_chunks = []
-        # for item in chunk_embeddings:
-        #     chunk = item["chunk"]
-        #     embedding = item["embedding"]
-        #     score = cosine_similarity(question_embedding, embedding)
-        #     scored_chunks.append((score, chunk))
-
-        # # Sort by highest similarity (score)
-        # scored_chunks.sort(reverse=True)
-
-        # # Take the Top 3
-        # top_chunks = scored_chunks[:3]
-
-        # context = "\n".join([chunk for _, chunk in top_chunks])
-
-        # -------------------------------
-
-        # Retrieving Top 3 (high score) chunks from Chromadb
-        # Ask Chroma for the top 3 most similar chunks
-        results = collection.query(
-            query_embeddings=[question_embedding],
-            n_results=3,
-            include=["documents", "distances", "data"],
-        )
-
-        # Chroma returns lists-of-lists (because it supports batch queries)
-        retrieved_docs = results.get("documents", [[]])[0]
-        retrieved_ids = results.get("ids", [[]])[0]
-        retrieved_distances = results.get("distances", [[]])[0]
-
-        # If retrieval fails, keep strict behavior
-        if not retrieved_docs or all((d is None or d.strip() == "") for d in retrieved_docs):
-            return {"response": "I dont know."}
+        Rules:
+        - If the user asks any BJJ / jiujitsu / ju jitsu or similar questions about technique/rules/training, you MUST call rag_search_tool before answering.
+        - Use ONLY tool chunks for BJJ factual answers.
+        - If the tool returns no chunks, say "I don't know." and ask one short follow-up question.
+        - For greetings/small talk, you may respond without calling tools.
+        - Seek to guide back the conversation to BJJ when asked a question that isn't relevant. You can be blunt about it.
+        """
         
-        # Build context from retrieved documents
-        context = "\n".join(retrieved_docs)
-            
-        # Strict RAG (Document Only)
-        prompt = f"""
-You are a helpful assistant.
-Answer the question using ONLY the context below.
-If the anser is not containe din the context, say "I don't know."
-
-Context:
-{context}
-
-Question:
-{message.text}
-
-"""
-
-    
-        # Send Users message to AI and store response
-        response = client.chat.completions.create(
+        # LangChain chat model (tool calling)
+        llm = ChatOpenAI(
             model="gpt-4o-mini",
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-            
+            temperature=0
+        )
+
+        # Create Agent
+        bjj_agent = create_agent(
+            model=llm,
+            tools=[rag_search],
+            system_prompt=sys_prompt
         )
         
-        # Return AIs response
-        return {"response": response.choices[0].message.content}
+        # Debug Line
+        # print("SENDING TO AGENT =", repr(message.text))
+
+        # Invoke the agent with the user's real input
+        response = bjj_agent.invoke({
+            "messages": [{
+                "role": "user", 
+                "content": message.text
+                }]
+        })
+
+        #Debug Line
+        # pprint(response['messages'][-1].content)
+
+        return {"response": response['messages'][-1].content}
 
     except Exception as e:
         return {"response": "Something went wrong. Please try again."}

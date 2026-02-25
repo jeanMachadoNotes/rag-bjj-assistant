@@ -23,7 +23,7 @@ function App() {
   }, [loading]);
 
   const sendMessage = async () => {
-    if (input.trim() === "") return;
+    if (input.trim() === "" && !input.trim()) return;
 
     const userMessage = {
       text: input,
@@ -69,15 +69,17 @@ function App() {
       <div className="header">
         <h1 className="title">Brazilian Jiu-Jitsu Knowledge Assistant</h1>
         <p className="subtitle">
-          Ask questions about Brazilian Jiu-Jitsu techniques and concepts.
-          Responses are generated using a strict Retrieval-Augmented Generation (RAG) pipeline that relies only on curated source material.
+          Ask questions about Brazilian Jiu-Jitsu techniques and concepts.<br/>---<br/>
+          <span>Powered by a LangChain agent implementing Retrieval-Augmented Generation (RAG), 
+this system dynamically queries a vector database and answers strictly from curated source material.</span>
         </p>
+        <div className="badge agent">LangChain Agent</div>
         <div className="badge">Strict Context Mode Enabled</div>
       </div>
 
       <div className="chat-container">
         <div className="chat-header">
-          <div className="version-tag">v1.2.0 — Vector Database Integration</div>
+          <div className="version-tag">v1.3.0 — Agentic RAG Integration</div>
           <span 
             className="changelog-link"
             onClick={() => {setShowChangelog(true)}}
@@ -88,10 +90,10 @@ function App() {
         <div className="messages" ref={messagesRef}>
           {messages.length === 0 && (
             <div className="empty-state">
-              Start by asking a question about Brazilian Jiu-Jitsu.
+              Start by asking a question about Brazilian Jiu-Jitsu. For example: “What is Jiu-Jitsu?”
             </div>
           )}
-            {messages.map((message, index) => (
+            {messages.map((message, index) => ( 
               <div
                 key={index}
                 className={`message-wrapper ${message.sender}`}
@@ -115,23 +117,44 @@ function App() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") sendMessage();
+              if (e.key === "Enter" && input.trim() && !loading) sendMessage();
             }}
             placeholder="Ask a question..."
             className="input" 
           />
 
-          <button onClick={sendMessage} className="button">
-            Send
+          <button onClick={sendMessage} className="button" aria-label="Send message" title="Send" disabled={!input.trim() || loading}>
+            <svg
+              className="sendIcon"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
+            </svg>
           </button>
 
         </div>
 
         {showChangelog && (
           <div className="modal-overlay" onClick={()=> setShowChangelog(false)}>
-            <div className="modal" onClick={(e)=> e.stopPropagation()}>
+            <div className="modal changelogBody" onClick={(e)=> e.stopPropagation()}>
               
-              <h3>Changelog</h3>
+              <h3>CHANGELOG</h3>
+              <p className="micro-note">
+                Pipeline Evolution: Manual Retrieval → Persistent Embeddings → Vector DB → Agent-Orchestrated RAG
+              </p>
+
+              <h4>v1.3.0 - Agentic RAG Integration</h4>
+              <ul>
+                <li>Replaced direct LLM calls with a LangChain tool-calling agent</li>
+                <li>Encapsulated vector retrieval as a structured RAG tool</li>
+                <li>Maintained strict grounding: factual claims require retrieved context</li>
+                <li>Improved conversational handling for non-knowledge queries</li>
+                <li>UI/UX Improvements (icon button, mobile fixes, scroll modal)</li>
+              </ul>
 
               <h4>v1.2.0 – Vector Database Integration </h4>
                 <ul>
@@ -166,7 +189,7 @@ function App() {
         
       </div>
 
-      <div className="footer">Built with React, FastAPI, and OpenAI Embeddings.</div>
+      <div className="footer">Built with React, FastAPI, LangChain Agents, ChromaDB, and OpenAI embeddings.</div>
     </div>
   );
 }

@@ -1,7 +1,28 @@
+:root {
+  --bg-main: #f6f7fb;
+  --bg-chat: #fff;
+  --text: #111827;
+  --muted: #6b7280;
+
+  --primary: #14b8a6;
+  --primary-dark: #0f766e;
+  --bot-bg: #eeeeee;
+  --user-bg: #dcf8c6;
+
+  --border: #e5e7eb;
+  --shadow: 0 10px 25px rgba(17, 24, 39, 0.1);
+
+  --radius: 16px;
+  --badge: hsl(201, 96%, 32%);
+  --bg-badge: hsl(204, 94%, 94%);
+  --version-tag: #f5f5f5;
+}
+
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #f5f7fa;
+  background-color: var(--bg-main);
 }
 
 .page {
@@ -33,17 +54,23 @@ body {
   margin-top: 12px;
   padding: 6px 12px;
   font-size: 12px;
-  background-color: hsl(204, 94%, 94%);
-  color: hsl(201, 96%, 32%);
+  background-color: var(--bg-badge);
+  color: var(--badge);
   border-radius: 20px;
+}
+
+.badge.agent {
+  background: rgba(20, 184, 166, 0.12);
+  color: var(--primary-dark);
+  margin-right: 10px;
 }
 
 .chat-container {
   max-width: 700px;
   margin: 0 auto;
-  background-color: white;
+  background-color: var(--bg-chat);
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   height: 500px;
@@ -60,8 +87,8 @@ body {
 
 .version-tag {
   font-size: 11px;
-  color: #555;
-  background-color: #f5f5f5;
+  color: var(--muted);
+  background-color: var(--version-tag);
   padding: 3px 8px;
   border-radius: 12px;
 }
@@ -69,7 +96,7 @@ body {
 .changelog-link {
   margin-left: 8px;
   font-size: 12px;
-  color: #555;
+  color: var(--muted);
   cursor: pointer;
 }
 
@@ -86,15 +113,22 @@ body {
 }
 
 .modal {
-  background: white;
+  background: var(--bg-chat);
   padding: 20px;
   border-radius: 8px;
   width: 320px;
 }
 
+.changelogBody {
+  max-height: 70vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 8px;
+}
+
 .empty-state {
   text-align: center;
-  color: #aaa;
+  color: var(--muted);
   margin-top: 40px;
   font-size: 14px;
 }
@@ -120,43 +154,73 @@ body {
 .bubble {
   display: inline-block;
   padding: 10px 14px;
-  border-radius: 18px;
+  border-radius: var(--radius);
   max-width: 75%;
 }
 
 .bubble-user {
-  background-color: #dcf8c6;
+  background-color: var(--user-bg);
 }
 
 .bubble-bot {
-  background-color: #f1f0f0;
+  background-color: var(--bot-bg);
 }
 
 .loading {
   font-style: italic;
+  font-size: 14px;
 }
 
 .input-area {
   display: flex;
-  border-top: 1px solid #eee;
+  border-top: 1px solid hsl(0, 0%, 90%);
+}
+
+.input-area button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s ease, transform 0.05s ease;
+}
+
+.input-area button:active {
+  transform: translateY(1px);
+}
+
+.input-area button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input-area button:disabled .sendIcon {
+  opacity: 0.7;
+}
+
+.sendIcon {
+  fill: currentColor;
+  display: block;
 }
 
 .input {
   flex: 1;
   padding: 14px;
   border: none;
-  background-color: #f2f2f2;
+  background-color: hsl(228, 38%, 99%);
   color: rgb(0, 0, 0);
   cursor: pointer;
-}
-
-.button:hover {
-  background-color: #eae8bd;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 .footer {
   text-align: center;
   margin-top: 20px;
   font-size: 12px;
-  color: #888;
+  color: var(--muted);
+}
+
+.micro-note {
+  font-size: 12px;
+  color: var(--muted);
 }

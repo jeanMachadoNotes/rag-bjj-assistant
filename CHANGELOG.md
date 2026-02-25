@@ -3,6 +3,14 @@
 All notable changes to this project will be documented here.
 
 ---
+# v.1.3.0 - Agentic RAG Integration
+
+- Replaced direct LLM calls with a LangChain tool-calling agent
+- Encapsulated vector retrieval as a structured RAG tool
+- Maintained strict grounding: factual claims require retrieved context
+- Improved conversational handling for non-knowledge queries
+- UI/UX Improvements (icon button, mobile fixes, scroll modal)
+
 # v1.2.0 - Vector Database Integration
 
 - Replaced manual cosine retrieval with ChromaDB query

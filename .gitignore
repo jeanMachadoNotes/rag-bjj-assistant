@@ -15,3 +15,7 @@ fronend/.env
 
 # Mac
 .DS_Store
+
+# Chroma vector DB files
+chroma_db/
+backend/chroma_db/
