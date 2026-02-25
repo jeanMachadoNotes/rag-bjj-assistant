@@ -1,35 +1,51 @@
-# Brazilian Jiu-Jitsu Knowledge Assistant (v1.0.0)
+# Brazilian Jiu-Jitsu Knowledge Assistant
 
-A full-stack AI app that answers Brazilian Jiu-Jitsu questions using a strict RAG (Retrieval-Augmented Generation) pipeline.
+An agent-orchestrated Retrieval-Augmented Generation (RAG) system built with React, FastAPI, LangChain, ChromaDB, and OpenAI embeddings.
 
-The assistant only responds using a small curated knowledge base.
-If the answer isn’t in the documents, it says: “*I don’t know.*”
+This project demonstrates the architectural evolution of a production-style RAG application:
+Manual Retrieval → Persistent Embeddings → Vector Database → Agentic Tool-Calling RAG
 
 
 
 **Live Demo:** 
 
 
+## Overview
 
+This application answers questions about Brazilian Jiu-Jitsu using a strictly grounded RAG pipeline.
 
-### Tech Stack
-**Frontend:** React, External CSS styling, Smooth container-level scrolling, Loading state and error handling
-**Backend:** FastAPI, OpenAI Embeddings API, Cosine similarity retrieval, SlowAPI rate limiting
+In v1.3.0, the system was upgraded to a LangChain tool-calling agent. The agent dynamically decides when to query a Chroma vector database and is required to retrieve context before making factual claims about the knowledge base.
 
-### What This Project Shows
-- React frontend
-- FastAPI backend
+The system enforces strict grounding:
+- All factual answers must originate from retrieved chunks.
+- If no relevant context is found, the assistant responds with "I don't know."
+- Non-knowledge small talk is allowed without retrieval.
+
+## Architecture
+
+Frontend:
+- React (Create React App)
+- Mobile-optimized UI
+- In-app versioning and changelog modal
+
+Backend:
+- FastAPI
+- LangChain Agent (tool-calling)
+- ChromaDB vector database
 - OpenAI embeddings
-- Manual cosine similarity search
-- Top-k retrieval
-- Prompt augmentation
-- Rate limiting + cost safeguards
+- Strict retrieval enforcement
+- Rate limiting (10 req/min/IP)
 
-### How It Works
-1. Documents are split into chunks.
-2. Each chunk is converted into an embedding.
-3. User questions are embedded.
-4. The most similar chunks are retrieved.
-5. Those chunks are injected into the prompt.
-6. The model answers using only that context.
-*No context → no answer.* 
+## Agent Flow:
+
+User Message
+    ↓
+LangChain Agent
+    ↓
+If factual BJJ question → Call rag_search_tool
+    ↓
+ChromaDB vector query (top-3 cosine similarity)
+    ↓
+Context returned to agent
+    ↓
+Grounded response generation
