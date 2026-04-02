@@ -2,6 +2,8 @@
 backend/venv/
 __pycache__/
 *.pyc
+*.json
+*.log
 
 # Node
 frontend/node_modules/
@@ -9,6 +11,7 @@ frontend/build
 
 # Enviroment variables
 .env
+venv/
 backend/.env
 backend/embeddings.json
 fronend/.env
@@ -19,3 +22,7 @@ fronend/.env
 # Chroma vector DB files
 chroma_db/
 backend/chroma_db/
+
+# Testing files
+backend/security_improvements.py
+backend/security_test.py

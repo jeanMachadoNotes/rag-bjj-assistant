@@ -67,7 +67,7 @@ function App() {
   return (
     <div className="page">
       <div className="header">
-        <h1 className="title">Brazilian Jiu-Jitsu Knowledge Assistant</h1>
+        <h1 className="title">Brazilian Jiu-Jitsu Knowledge Assistant 🥋</h1>
         <p className="subtitle">
           Ask questions about Brazilian Jiu-Jitsu techniques and concepts.<br/>---<br/>
           <span>Powered by a LangChain agent implementing Retrieval-Augmented Generation (RAG), 
@@ -75,11 +75,12 @@ this system dynamically queries a vector database and answers strictly from cura
         </p>
         <div className="badge agent">LangChain Agent</div>
         <div className="badge">Strict Context Mode Enabled</div>
+        <div className="badge secure">Protected Mode</div>
       </div>
 
       <div className="chat-container">
         <div className="chat-header">
-          <div className="version-tag">v1.3.0 — Agentic RAG Integration</div>
+          <div className="version-tag">v1.4.0 — Security Enhancements</div>
           <span 
             className="changelog-link"
             onClick={() => {setShowChangelog(true)}}
@@ -146,6 +147,14 @@ this system dynamically queries a vector database and answers strictly from cura
               <p className="micro-note">
                 Pipeline Evolution: Manual Retrieval → Persistent Embeddings → Vector DB → Agent-Orchestrated RAG
               </p>
+
+              <h4>v.1.4.0 - Security Hardening and Testing</h4>
+              <ul>
+                <li>Enhanced input filtering for prompt injection and special character attacks</li>
+                <li>Improved prompt separation with clear instruction/data boundaries</li>
+                <li>Added chunk trust scoring to filter poisoned context (0-1 scale)</li>
+                <li>Implemented 23 automated security test cases across 8 attack categories</li>
+              </ul>
 
               <h4>v1.3.0 - Agentic RAG Integration</h4>
               <ul>

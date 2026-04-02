@@ -49,3 +49,40 @@ ChromaDB vector query (top-3 cosine similarity)
 Context returned to agent
     ↓
 Grounded response generation
+
+## 🛡️ Security Testing
+
+This project includes comprehensive security testing tools to assess prompt injection vulnerabilities:
+
+### Quick Start
+```bash
+# Run automated security tests
+cd backend
+python security_test.py
+```
+
+### Testing Resources
+- **SECURITY_TESTING_GUIDE.md** - Complete guide to running security tests
+- **QUICK_MANUAL_TESTS.md** - 5-minute manual test checklist
+- **SECURITY_TEST_REPORT.md** - Detailed vulnerability assessment with 23 test cases
+- **backend/security_test.py** - Automated testing script
+- **backend/security_improvements.py** - Enhanced security implementations
+
+### What's Tested
+- ✅ System prompt leaking attacks
+- ✅ Role/instruction injection
+- ✅ Unicode homograph bypasses
+- ✅ Context boundary manipulation
+- ✅ RAG-specific exploits
+- ✅ Obfuscation techniques
+- ✅ Multi-turn attacks
+
+### Current Security Features
+- Input pattern filtering
+- Special character detection
+- Rate limiting (10 req/min/IP)
+- Chunk trust scoring
+- Agent-based architecture with strict rules
+- System prompt separation
+
+For detailed security information, see [SECURITY_TESTING_GUIDE.md](SECURITY_TESTING_GUIDE.md).

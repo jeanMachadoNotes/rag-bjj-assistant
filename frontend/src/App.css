@@ -1,11 +1,12 @@
 :root {
-  --bg-main: #f6f7fb;
+  --bg-main: #fbfbf6;
   --bg-chat: #fff;
   --text: #111827;
   --muted: #6b7280;
 
   --primary: #14b8a6;
   --primary-dark: #0f766e;
+  --primary-light: #6c0f76;
   --bot-bg: #eeeeee;
   --user-bg: #dcf8c6;
 
@@ -63,6 +64,12 @@ body {
   background: rgba(20, 184, 166, 0.12);
   color: var(--primary-dark);
   margin-right: 10px;
+}
+
+.badge.secure {
+  background: hsla(300, 78%, 36%, 0.12);
+  color: var(--primary-light);
+  margin-left: 10px;
 }
 
 .chat-container {
