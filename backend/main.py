@@ -19,7 +19,7 @@ from langchain.agents import create_agent
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EMBEDDINGS_PATH = os.path.join(BASE_DIR, "embeddings.json")
-APP_VERSION = "v1.3.0"
+APP_VERSION = "v1.4.0"
 
 # Load enviroment variables from .env
 load_dotenv()
