@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
+import Footer from "./Footer";
 
 function App() {
   const [messages, setMessage] = useState([]);
@@ -198,7 +199,8 @@ this system dynamically queries a vector database and answers strictly from cura
         
       </div>
 
-      <div className="footer">Built with React, FastAPI, LangChain Agents, ChromaDB, and OpenAI embeddings.</div>
+      <div className="sub-text">Built with React, FastAPI, LangChain Agents, ChromaDB, and OpenAI embeddings.</div>
+      <Footer />
     </div>
   );
 }
