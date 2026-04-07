@@ -3,6 +3,12 @@
 All notable changes to this project will be documented here.
 
 ---
+# v.1.4.0 - Security Hardening and Testing 
+- Enhanced input filtering for prompt injection and special character attacks
+- Improved prompt separation with clear instruction/data boundaries
+- Added chunk trust scoring to filter poisoned context (0-1 scale)
+- Implemented 23 automated security test cases across 8 attack categories
+
 # v.1.3.0 - Agentic RAG Integration
 
 - Replaced direct LLM calls with a LangChain tool-calling agent
